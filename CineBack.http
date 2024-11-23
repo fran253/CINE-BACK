@@ -1,0 +1,6 @@
+@CineBack_HostAddress = http://localhost:5163
+
+GET {{CineBack_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
