@@ -8,7 +8,7 @@ namespace CineApi.Controllers
     [Route("CinemaParaiso/[controller]")]
     public class PeliculaController : ControllerBase
     {
-        private static List<Pelicula> peliculas = new List<Pelicula>();
+        public static List<Pelicula> peliculas = new List<Pelicula>();
 
         [HttpGet]
         public ActionResult<IEnumerable<Pelicula>> GetAll()
@@ -114,6 +114,10 @@ namespace CineApi.Controllers
 
             
 
+        }
+        public static List<Pelicula> GetPeliculas()
+        {
+            return peliculas;
         }
 
 

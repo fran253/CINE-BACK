@@ -7,7 +7,7 @@ namespace CineApi.Controllers
     [Route("CinemaParaiso/[controller]")]
     public class SalaController : ControllerBase
     {
-        private static List<Sala> Salas = new List<Sala>();
+        public static List<Sala> Salas = new List<Sala>();
 
         [HttpGet]
         public ActionResult<IEnumerable<Sala>> GetAll()
@@ -27,12 +27,12 @@ namespace CineApi.Controllers
                     Salas.Add(new Sala(1, 100,"A-1"));
                     Salas.Add(new Sala(2, 80,"A-2"));
                     Salas.Add(new Sala(3, 80,"A-3"));
-                    Salas.Add(new Sala(5, 100, "B-1"));
-                    Salas.Add(new Sala(6, 80, "B-2"));
-                    Salas.Add(new Sala(7, 80, "B-3"));
-                    Salas.Add(new Sala(9, 100, "C-1"));
-                    Salas.Add(new Sala(10, 80, "C-2"));
-                    Salas.Add(new Sala(11, 80, "C-3"));
+                    Salas.Add(new Sala(4, 100, "B-1"));
+                    Salas.Add(new Sala(5, 80, "B-2"));
+                    Salas.Add(new Sala(6, 80, "B-3"));
+                    Salas.Add(new Sala(7, 100, "C-1"));
+                    Salas.Add(new Sala(8, 80, "C-2"));
+                    Salas.Add(new Sala(9, 80, "C-3"));
 
 
 
