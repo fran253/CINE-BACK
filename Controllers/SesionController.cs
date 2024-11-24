@@ -37,7 +37,8 @@ namespace CineApi.Controllers
                         sesion.Pelicula.EdadMinima,
                         sesion.Pelicula.FechaEstreno,
                         sesion.Pelicula.Descripcion,
-                        sesion.Pelicula.IdCategoriaPelicula
+                        sesion.Pelicula.IdCategoriaPelicula,
+                        sesion.Pelicula.NombreCategoria
                     },
                     Horarios = sesion.Horarios.Select(horario => new 
                     {
