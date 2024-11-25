@@ -12,10 +12,11 @@ public class Pelicula {
     public string Descripcion {get;set;}
     public int IdCategoriaPelicula {get;set;}
     public string NombreCategoria {get; set;}
+    public string TrailerUrl {get;set;}
 
 
 
-    public Pelicula(int idpelicula, string nombre,string imagen, string director, int duracion, string actores, string edadminima, DateTime fechaestreno, string descripcion, int idCategoriaPelicula, string nombrecategoria) {
+    public Pelicula(int idpelicula, string nombre,string imagen, string director, int duracion, string actores, string edadminima, DateTime fechaestreno, string descripcion, int idCategoriaPelicula, string nombrecategoria, string trailerUrl) {
         IdPelicula = idpelicula;
         Nombre = nombre;
         Imagen = imagen;
@@ -27,6 +28,7 @@ public class Pelicula {
         Descripcion = descripcion;
         IdCategoriaPelicula = idCategoriaPelicula;
         NombreCategoria = nombrecategoria;
+        TrailerUrl = trailerUrl;
 
         // if (string.IsNullOrEmpty(nombre))
         // {
