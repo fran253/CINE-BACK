@@ -25,44 +25,51 @@ namespace CineApi.Controllers
         }
 
         // Obtener sesión por ID
-        [HttpGet("{id}")]
-        public ActionResult<object> GetById(int id)
-        {
-            var sesion = sesiones.FirstOrDefault(s => s.IdSesion == id);
-            if (sesion == null)
-                return NotFound(new { Message = "No se encontró la sesión especificada." });
+[HttpGet("{id}")]
+public ActionResult<object> GetById(int id)
+{
+    var sesion = sesiones.FirstOrDefault(s => s.IdSesion == id);
+    if (sesion == null)
+        return NotFound(new { Message = "No se encontró la sesión especificada." });
 
-            return Ok(new
+    return Ok(new
+    {
+        sesion.IdSesion,
+        Pelicula = new
+        {
+            sesion.Pelicula.IdPelicula,
+            sesion.Pelicula.Nombre,
+            sesion.Pelicula.Imagen,
+            sesion.Pelicula.Director,
+            sesion.Pelicula.Duracion,
+            sesion.Pelicula.Actores,
+            sesion.Pelicula.EdadMinima,
+            sesion.Pelicula.FechaEstreno,
+            sesion.Pelicula.Descripcion,
+            sesion.Pelicula.IdCategoriaPelicula,
+            sesion.Pelicula.NombreCategoria,
+            sesion.Pelicula.TrailerUrl
+        },
+        Horario = new
+        {
+            sesion.Horario.IdHorario,
+            hora = sesion.Horario.FechaInicio,
+            Sala = new
             {
-                sesion.IdSesion,
-                Pelicula = new
-                {
-                    sesion.Pelicula.IdPelicula,
-                    sesion.Pelicula.Nombre,
-                    sesion.Pelicula.Imagen,
-                    sesion.Pelicula.Director,
-                    sesion.Pelicula.Duracion,
-                    sesion.Pelicula.Actores,
-                    sesion.Pelicula.EdadMinima,
-                    sesion.Pelicula.FechaEstreno,
-                    sesion.Pelicula.Descripcion,
-                    sesion.Pelicula.IdCategoriaPelicula,
-                    sesion.Pelicula.NombreCategoria,
-                    sesion.Pelicula.TrailerUrl
-                },
-                Horario = new
-                {
-                    sesion.Horario.IdHorario,
-                    hora = sesion.Horario.FechaInicio,
-                    Sala = new
-                    {
-                        sesion.Horario.Sala.IdSala,
-                        sesion.Horario.Sala.Capacidad,
-                        sesion.Horario.Sala.NombreSala
-                    }
-                }
-            });
-        }
+                sesion.Horario.Sala.IdSala,
+                sesion.Horario.Sala.Capacidad,
+                sesion.Horario.Sala.NombreSala
+            }
+        },
+        AsientosDisponibles = sesion.AsientosDisponibles.Select(a => new
+        {
+            a.IdAsiento,
+            a.NumAsiento,
+            a.Estado // true = ocupado, false = libre
+        })
+    });
+}
+
 
         // Obtener sesiones por ID de película
         [HttpGet("Pelicula/{peliculaId}")]
@@ -132,6 +139,18 @@ namespace CineApi.Controllers
         }
 
         
+    [HttpPut("{idSesion}/Asientos")]
+    public ActionResult UpdateAsientos(int idSesion, [FromBody] List<int> idsAsientos)
+    {
+        var sesion = sesiones.FirstOrDefault(s => s.IdSesion == idSesion);
+        foreach (var idAsiento in idsAsientos)
+        {
+            var asiento = sesion.AsientosDisponibles.FirstOrDefault(a => a.IdAsiento == idAsiento);
+                asiento.Estado = true; // cambiar estado a ocupado
+        }
+
+        return Ok(new { Message = "Asientos actualizados correctamente." });
+    }
 
 
         // Inicializar sesiones
@@ -144,11 +163,14 @@ namespace CineApi.Controllers
 
             foreach (var horario in horarios)
             {
-                sesiones.Add(new Sesion(
+                var sesion = new Sesion(
                     idsesion: idSesion++,
                     pelicula: horario.Pelicula,
-                    horario: horario
-                ));
+                    horario: horario);
+                sesion.InicializarAsientos();    
+                sesiones.Add(sesion);
+                
+                
             }
         }
     }

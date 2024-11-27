@@ -1,17 +1,18 @@
 namespace Models;
 
 public class Asiento {
-    public int IdAsiento {get;set;}
-    public int NumAsiento {get;set;}
-    public Boolean Estado {get;set;}
+    public int IdAsiento { get; set; }
+    public int NumAsiento { get; set; }
+    public bool Estado { get; set; } // true = ocupado, false = libre
 
-
-
-
-    public Asiento(int idasiento, int numasiento, Boolean estado) {
+    public Asiento(int idasiento, int numasiento, bool estado) {
         IdAsiento = idasiento;
         NumAsiento = numasiento;
         Estado = estado;
+        
+
+
+
         // if (string.IsNullOrEmpty(nombre))
         // {
         //     throw new ArgumentException("Error: El nombre no puede estar vacío.");
