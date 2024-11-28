@@ -125,7 +125,7 @@ namespace CineApi.Controllers
             {
                 asiento.IdAsiento,
                 asiento.NumAsiento,
-                Estado = asiento.Estado ? "Ocupado" : "Libre" // Formatear el estado
+                Estado = asiento.Libre ? "Ocupado" : "Libre" // Formatear el estado
             });
 
             return Ok(asientos);

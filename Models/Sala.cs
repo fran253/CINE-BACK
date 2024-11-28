@@ -12,7 +12,7 @@ public class Sala {
 
 
 
-   public Sala(int idsala, int capacidad, string nombresala)
+   public Sala(int idsala, int capacidad, string nombresala, int precioasiento)
         {
             IdSala = idsala;
             Capacidad = capacidad;
@@ -26,7 +26,7 @@ public class Sala {
                 AsientosDisponibles.Add(new Asiento(
                     idasiento: i,
                     numasiento: i, 
-                    estado: true 
+                    libre: true 
                 ));
             }
         }

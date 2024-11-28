@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.Urls.Add("https://*:7000");
-app.Urls.Add("http://*:5000");
+app.Urls.Add("https://*:5000");
 
 app.UseCors("PermitirOrigenLocal");
 
