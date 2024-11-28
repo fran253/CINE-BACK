@@ -4,6 +4,7 @@ public class Sala {
     public int IdSala {get;set;}
     public string NombreSala {get; set;}
     public int Capacidad{get;set;}
+    public int PrecioAsiento {get;set;}
     public List<Asiento> AsientosDisponibles { get; set; }
 
 
@@ -17,6 +18,8 @@ public class Sala {
             IdSala = idsala;
             Capacidad = capacidad;
             NombreSala = nombresala;
+            PrecioAsiento = precioasiento;
+
 
             // Inicializar la lista de asientos disponibles
             AsientosDisponibles = new List<Asiento>();

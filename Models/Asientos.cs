@@ -11,7 +11,7 @@ public class Asiento {
     public Asiento(int idasiento, int numasiento, Boolean libre) {
         IdAsiento = idasiento;
         NumAsiento = numasiento;
-        Libre = libre;
+        Libre = true;
         // if (string.IsNullOrEmpty(nombre))
         // {
         //     throw new ArgumentException("Error: El nombre no puede estar vacío.");

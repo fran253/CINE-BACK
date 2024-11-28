@@ -1,35 +1,46 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
-namespace CineApi.Controllers
+namespace CineApi.Controllers;
+
+[ApiController]
+[Route("CinemaParaiso/[controller]")]
+public class AsientoController : ControllerBase
 {
-    [ApiController]
-    [Route("CinemaParaiso/[controller]")]
-    public class AsientoController : ControllerBase
+    private static List<Asiento> Asientos = new List<Asiento>();
+
+    static AsientoController()
     {
-        private static List<Asiento> Asientos = new List<Asiento>();
-
-        [HttpGet]
-        public ActionResult<IEnumerable<Asiento>> GetAll()
+        if (!Asientos.Any())
         {
-            return Ok(Asientos);
+            for (int i = 1; i <= 50; i++) // Suponiendo 50 asientos
+            {
+                Asientos.Add(new Asiento(i, i, false)); // Inicialmente todos los asientos están libres
+            }
         }
+    }
 
-        [HttpGet("{id}")]
-        public ActionResult<Asiento> GetById(int id)
-        {
-            var asiento = Asientos.FirstOrDefault(a => a.IdAsiento == id);
-            if (asiento == null)
-                return NotFound();
-            return Ok(asiento);
-        }
+    [HttpGet]
+    public ActionResult<IEnumerable<Asiento>> GetAll()
+    {
+        return Ok(Asientos);
+    }
 
-        [HttpPost]
-        public ActionResult Create([FromBody] Asiento asiento)
+    [HttpPost("SaveSeats")]
+    public ActionResult SaveSeats([FromBody] List<int> pendingSeats)
+    {
+        foreach (var idAsiento in pendingSeats)
         {
-            Asientos.Add(asiento);
-            return CreatedAtAction(nameof(GetById), new { id = asiento.IdAsiento }, asiento);
+            var asiento = Asientos.FirstOrDefault(a => a.IdAsiento == idAsiento);
+            if (asiento != null)
+            {
+                asiento.Libre = false; // Marcar el asiento como ocupado
+            }
         }
+        return Ok(new { message = "Asientos confirmados correctamente." });
+    }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////De momento no se necesita el UPDATE
         // [HttpPut("{id}")]
@@ -58,6 +69,5 @@ namespace CineApi.Controllers
         {
             
         }
-
+        
     }
-}

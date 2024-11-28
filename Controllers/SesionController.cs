@@ -48,8 +48,8 @@ namespace CineApi.Controllers
                     sesion.Pelicula.Descripcion,
                     sesion.Pelicula.IdCategoriaPelicula,
                     sesion.Pelicula.NombreCategoria,
-                    sesion.Pelicula.TrailerUrl
-                },
+                    sesion.Pelicula.TrailerUrl,
+                            },
                 Horario = new
                 {
                     sesion.Horario.IdHorario,
@@ -58,11 +58,19 @@ namespace CineApi.Controllers
                     {
                         sesion.Horario.Sala.IdSala,
                         sesion.Horario.Sala.Capacidad,
-                        sesion.Horario.Sala.NombreSala
+                        sesion.Horario.Sala.NombreSala,
+                        sesion.Horario.Sala.PrecioAsiento
                     }
-                }
+                },
+                AsientosDisponibles = sesion.AsientosDisponibles.Select(a => new
+                {
+                    a.IdAsiento,
+                    a.NumAsiento,
+                    a.Libre // true = ocupado, false = libre
+                })
             });
         }
+
 
         // Obtener sesiones por ID de película
         [HttpGet("Pelicula/{peliculaId}")]
@@ -98,7 +106,8 @@ namespace CineApi.Controllers
                         {
                             sesion.Horario.Sala.IdSala,
                             sesion.Horario.Sala.Capacidad,
-                            sesion.Horario.Sala.NombreSala
+                            sesion.Horario.Sala.NombreSala,
+                            sesion.Horario.Sala.PrecioAsiento
                         }
                     }
                 })
@@ -132,6 +141,18 @@ namespace CineApi.Controllers
         }
 
         
+    [HttpPut("{idSesion}/Asientos")]
+    public ActionResult UpdateAsientos(int idSesion, [FromBody] List<int> idsAsientos)
+    {
+        var sesion = sesiones.FirstOrDefault(s => s.IdSesion == idSesion);
+        foreach (var idAsiento in idsAsientos)
+        {
+            var asiento = sesion.AsientosDisponibles.FirstOrDefault(a => a.IdAsiento == idAsiento);
+                asiento.Libre = false; // cambiar estado a ocupado
+        }
+
+        return Ok(new { Message = "Asientos actualizados correctamente." });
+    }
 
 
         // Inicializar sesiones
@@ -144,11 +165,14 @@ namespace CineApi.Controllers
 
             foreach (var horario in horarios)
             {
-                sesiones.Add(new Sesion(
+                var sesion = new Sesion(
                     idsesion: idSesion++,
                     pelicula: horario.Pelicula,
-                    horario: horario
-                ));
+                    horario: horario);
+                sesion.InicializarAsientos();    
+                sesiones.Add(sesion);
+                
+                
             }
         }
     }
