@@ -48,8 +48,8 @@ public ActionResult<object> GetById(int id)
             sesion.Pelicula.Descripcion,
             sesion.Pelicula.IdCategoriaPelicula,
             sesion.Pelicula.NombreCategoria,
-            sesion.Pelicula.TrailerUrl
-        },
+            sesion.Pelicula.TrailerUrl,
+                    },
         Horario = new
         {
             sesion.Horario.IdHorario,
@@ -58,7 +58,8 @@ public ActionResult<object> GetById(int id)
             {
                 sesion.Horario.Sala.IdSala,
                 sesion.Horario.Sala.Capacidad,
-                sesion.Horario.Sala.NombreSala
+                sesion.Horario.Sala.NombreSala,
+                sesion.Horario.Sala.PrecioAsiento
             }
         },
         AsientosDisponibles = sesion.AsientosDisponibles.Select(a => new
@@ -105,7 +106,8 @@ public ActionResult<object> GetById(int id)
                         {
                             sesion.Horario.Sala.IdSala,
                             sesion.Horario.Sala.Capacidad,
-                            sesion.Horario.Sala.NombreSala
+                            sesion.Horario.Sala.NombreSala,
+                            sesion.Horario.Sala.PrecioAsiento
                         }
                     }
                 })
