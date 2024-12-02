@@ -74,55 +74,6 @@ namespace CineApi.Controllers
         //     return NoContent();
         // }
 
-        public static void InicializarDatos()
-        {
-    peliculas.Add(new Pelicula(1, "El señor de los anillos", "/images/ElSeñorDeLosAnillos.png",  "Peter Jackson", 178, "Elijah Wood, Ian McKellen, Viggo Mortensen", "+12", new DateTime(2001, 12, 19), "Frodo Bolsón y su grupo de amigos deben destruir un anillo mágico para evitar que el malvado Sauron conquiste el mundo.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/3GJp6p_mgPo"));
-
-    peliculas.Add(new Pelicula(2, "Harry Potter", "/images/harrypotter1.jpg",  "Chris Columbus",152, "Daniel Radcliffe, Rupert Grint, Emma Watson", "+7", new DateTime(2001, 11, 10), "Harry Potter descubre que es un mago y asiste a la escuela Hogwarts para aprender magia, enfrentándose al malvado Voldemort.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/WE4AJuIvG1Y"));
-
-    peliculas.Add(new Pelicula(3, "Star Wars: Episodio IV ", "/images/StarWars.jpg",  "George Lucas",121, "Mark Hamill, Harrison Ford, Carrie Fisher", "+7", new DateTime(1977, 5, 25), "Un joven llamado Luke Skywalker se une a la rebelión contra el imperio galáctico para salvar a la princesa Leia.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/beAH5vea99k"));
-
-    peliculas.Add(new Pelicula(4, "El mago de Oz", "/images/MagodeOz.jpg",  "Victor Fleming",102, "Judy Garland, Frank Morgan, Ray Bolger", "+7", new DateTime(1939, 8, 25), "Dorothy es llevada por un tornado a la tierra de Oz, donde hará nuevos amigos mientras busca el camino de vuelta a casa.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/d1h4rUzcKGg"));
-
-    peliculas.Add(new Pelicula(5, "Caza fantasmas", "/images/CazFantasmas.jpg",  "Ivan Reitman",105, "Bill Murray, Dan Aykroyd, Sigourney Weaver", "+12", new DateTime(1984, 6, 8), "Un grupo de científicos inicia una empresa para capturar fantasmas en Nueva York, enfrentándose a una creciente invasión paranormal.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/gDPfArhkg7M"));
-
-    peliculas.Add(new Pelicula(6, "E.T. el extraterrestre", "/images/ET.jpg",  "Steven Spielberg",115, "Henry Thomas, Drew Barrymore, Peter Coyote", "+7", new DateTime(1982, 6, 11), "Un niño llamado Elliott forma una amistad con un extraterrestre llamado E.T., quien intenta regresar a su hogar en el espacio.", 2, "Clásicos", 
-    "https://www.youtube.com/watch?v=3WbZuH6i9Vo"));
-
-    peliculas.Add(new Pelicula(7, "Piratas del Caribe", "/images/PiratasdelCaribe.jpg",  "Gore Verbinski",143, "Johnny Depp, Orlando Bloom, Keira Knightley", "+12", new DateTime(2003, 7, 9), "El capitán Jack Sparrow se une a un grupo para buscar un tesoro perdido, mientras enfrenta una maldición que convierte a los piratas en esqueletos.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/5Itr2jHuJaw"));
-
-    peliculas.Add(new Pelicula(8, "Indiana Jones", "/images/IndianaJones.jpg",  "Steven Spielberg",115, "Harrison Ford, Karen Allen, Paul Freeman", "+12", new DateTime(1981, 6, 12), "El arqueólogo Indiana Jones viaja por el mundo para encontrar el Arca de la Alianza antes de que los nazis lo consigan.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/ceMf9xtDA6U"));
-
-    peliculas.Add(new Pelicula(9, "Regreso al futuro", "/images/RegresoalFuturo.jpg",  "Robert Zemeckis",116, "Michael J. Fox, Christopher Lloyd, Lea Thompson", "+12", new DateTime(1985, 7, 3), "Marty McFly viaja en el tiempo usando una máquina del tiempo inventada por el doctor Emmett Brown, pero su viaje pone en peligro su propia existencia.", 2, "Clásicos", 
-    "https://www.youtube.com/embed/NDS1myoYUzs"));
-
-    peliculas.Add(new Pelicula(10, "Psicosis", "/images/Psicosis.jpg",  "Alfred Hitchcock",109, "Anthony Perkins, Janet Leigh, Vera Miles", "+18", new DateTime(1960, 6, 16), "Una mujer en fuga se refugia en un motel, donde se encuentra con un misterioso gerente, Norman Bates, en una serie de eventos que desatan el terror.", 3, "Terror", 
-    "https://www.youtube.com/embed/mC2gOyWuSEY"));
-
-    // Continúa de la misma forma para las demás películas...
-}
-Solo cambié el prefijo de la ruta de las imágenes para que todas apunten a /images. Si tienes más películas, puedes seguir con el mismo patrón.
-
-
-
-
-
-
-Tú dijiste:
-dame todas juntas porfavor
-ChatGPT Plus
-ChatGPT
-Aquí tienes el código con las rutas de las imágenes actualizadas para comenzar con /images:
-
-csharp
-Copiar código
 public static void InicializarDatos()
 {
     peliculas.Add(new Pelicula(1, "El señor de los anillos", "/images/ElSeñorDeLosAnillos.png",  "Peter Jackson", 178, "Elijah Wood, Ian McKellen, Viggo Mortensen", "+12", new DateTime(2001, 12, 19), "Frodo Bolsón y su grupo de amigos deben destruir un anillo mágico para evitar que el malvado Sauron conquiste el mundo.", 2, "Clásicos", 
