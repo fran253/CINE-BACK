@@ -1,10 +1,10 @@
 namespace Models;
 
-public class Entrada {
-    public int Id {get;set;}
-    public decimal Precio {get;set;}
+public class Operacion {
+    public int IdOperacion {get;set;}
+    public Sesion Sesion {get;set;}
     //public string IdUsuario {get;set;}
-    public DateOnly Horario {get;set;}
+    public Asiento Asiento {get;set;}
     //public int IdPelicula {get;set;}
     
 
@@ -12,10 +12,10 @@ public class Entrada {
 
 
 
-    public Entrada(int id, decimal precio, DateOnly horario) {
-        Id = id;
-        Precio = precio;
-        Horario = horario;
+    public Operacion(int idoperacion, Sesion sesion, Asiento asiento) {
+        IdOperacion = idoperacion;
+        Sesion = sesion;
+        Asiento = asiento;
         // if (string.IsNullOrEmpty(nombre))
         // {
         //     throw new ArgumentException("Error: El nombre no puede estar vacío.");

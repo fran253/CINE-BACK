@@ -8,46 +8,80 @@ namespace CineApi.Controllers
     public class SesionController : ControllerBase
     {
         private static List<Sesion> sesiones = new List<Sesion>();
-        private static int ultimoIdSesion = 0; 
 
+        public SesionController()
+        {
+            if (!sesiones.Any())
+            {
+                InicializarDatos();
+            }
+        }
 
-        //Funcion para obtener todas las sesiones
+        // Obtener todas las sesiones
         [HttpGet]
         public ActionResult<IEnumerable<Sesion>> GetAll()
         {
             return Ok(sesiones);
         }
 
-        //Filtrado para obtener la sesion por id de la misma
+        // Obtener sesión por ID
         [HttpGet("{id}")]
-        public ActionResult<Sesion> GetById(int id)
+        public ActionResult<object> GetById(int id)
         {
             var sesion = sesiones.FirstOrDefault(s => s.IdSesion == id);
             if (sesion == null)
-                return NotFound();
-            return Ok(sesion);
+                return NotFound(new { Message = "No se encontró la sesión especificada." });
+
+            return Ok(new
+            {
+                sesion.IdSesion,
+                Pelicula = new
+                {
+                    sesion.Pelicula.IdPelicula,
+                    sesion.Pelicula.Nombre,
+                    sesion.Pelicula.Imagen,
+                    sesion.Pelicula.Director,
+                    sesion.Pelicula.Duracion,
+                    sesion.Pelicula.Actores,
+                    sesion.Pelicula.EdadMinima,
+                    sesion.Pelicula.FechaEstreno,
+                    sesion.Pelicula.Descripcion,
+                    sesion.Pelicula.IdCategoriaPelicula,
+                    sesion.Pelicula.NombreCategoria,
+                    sesion.Pelicula.TrailerUrl,
+                            },
+                Horario = new
+                {
+                    sesion.Horario.IdHorario,
+                    hora = sesion.Horario.FechaInicio,
+                    Sala = new
+                    {
+                        sesion.Horario.Sala.IdSala,
+                        sesion.Horario.Sala.Capacidad,
+                        sesion.Horario.Sala.NombreSala,
+                        sesion.Horario.Sala.PrecioAsiento
+                    }
+                },
+                AsientosDisponibles = sesion.AsientosDisponibles.Select(a => new
+                {
+                    a.IdAsiento,
+                    a.NumAsiento,
+                    a.Libre // true = ocupado, false = libre
+                })
+            });
         }
 
-       [HttpGet("PeliculaSesion/{idPelicula}")]
-        public ActionResult<List<Sesion>> GetSesionesByIdPelicula(int idPelicula)
-        {
-            var peliculasFiltradas = sesiones.Where(sesion => sesion.Pelicula.IdPelicula == idPelicula).ToList();
 
-            return Ok(peliculasFiltradas);
-        }
-
-
-        //Filtrado por el id de la pelicula
-        //este fitlrado pilla el id de la sesion la pelicula con todos sus atributos y todos los horarios que tendrá
+        // Obtener sesiones por ID de película
         [HttpGet("Pelicula/{peliculaId}")]
         public ActionResult<IEnumerable<object>> GetByPeliculaId(int peliculaId)
         {
             var sesionesFiltradas = sesiones
                 .Where(sesion => sesion.Pelicula.IdPelicula == peliculaId)
-                .Select(sesion => new 
+                .Select(sesion => new
                 {
                     sesion.IdSesion,
-                    Pelicula = new 
+                    Pelicula = new
                     {
                         sesion.Pelicula.IdPelicula,
                         sesion.Pelicula.Nombre,
@@ -58,108 +92,88 @@ namespace CineApi.Controllers
                         sesion.Pelicula.EdadMinima,
                         sesion.Pelicula.FechaEstreno,
                         sesion.Pelicula.Descripcion,
-                        sesion.Pelicula.IdCategoriaPelicula
+                        sesion.Pelicula.IdCategoriaPelicula,
+                        sesion.Pelicula.NombreCategoria,
+                        sesion.Pelicula.TrailerUrl
                     },
-                    Horarios = sesion.Horarios.Select(horario => new 
+                    Horario = new
                     {
-                        horario.IdHorario,
-                        horario.Hora,
-                        Sala = new 
+                        sesion.Horario.IdHorario,
+                        sesion.Horario.FechaInicio,
+                        sesion.Horario.FechaFin,
+
+                        Sala = new
                         {
-                            horario.Sala.IdSala,
-                            horario.Sala.Capacidad,
-                            horario.Sala.NombreSala
+                            sesion.Horario.Sala.IdSala,
+                            sesion.Horario.Sala.Capacidad,
+                            sesion.Horario.Sala.NombreSala,
+                            sesion.Horario.Sala.PrecioAsiento
                         }
-                    })
+                    }
                 })
                 .ToList();
 
-            //Si no hay resultados da error
             if (!sesionesFiltradas.Any())
-                return NotFound();
+                return NotFound(new { Message = "No se encontraron sesiones para esta película." });
 
             return Ok(sesionesFiltradas);
         }
 
-        // Carga los asientos de el horario especifico
-        //el horario tiene sala como atributo, ya que lo que elige el usuario es el horario, la sala le viene por defecto
-        [HttpGet("Pelicula/{peliculaId}/Sesion/Horario/{horarioId}/Asientos")]
-        public ActionResult<IEnumerable<object>> GetAsientosByHorario(int peliculaId, int horarioId)
+        [HttpGet("{id}/Asientos")]
+        public ActionResult<IEnumerable<object>> GetAsientosBySesion(int id)
         {
-            // Verificar que la película existe
-            var sesion = sesiones.FirstOrDefault(s => s.Pelicula.IdPelicula == peliculaId);
+            var sesion = sesiones.FirstOrDefault(s => s.IdSesion == id);
 
             if (sesion == null)
-                return NotFound(new { Message = "No se encontró la película especificada." });
+            {
+                return NotFound(new { Message = "No se encontró la sesión especificada." });
+            }
 
-            // Verificar que el horario pertenece a esa película
-            var horario = sesion.Horarios.FirstOrDefault(h => h.IdHorario == horarioId);
-
-            if (horario == null)
-                return NotFound(new { Message = "No se encontró el horario especificado para esta película." });
-
-            // Obtener los asientos de la sala asociada al horario
-            var asientos = horario.Sala.AsientosDisponibles.Select(asiento => new
+            // Retornar los asientos disponibles
+            var asientos = sesion.AsientosDisponibles.Select(asiento => new
             {
                 asiento.IdAsiento,
                 asiento.NumAsiento,
-                Estado = asiento.Estado ? "Libre" : "Ocupado"
+                Estado = asiento.Libre ? "Ocupado" : "Libre" // Formatear el estado
             });
 
             return Ok(asientos);
         }
-    
 
-    public static void InicializarDatos()
+        
+    [HttpPut("{idSesion}/Asientos")]
+    public ActionResult UpdateAsientos(int idSesion, [FromBody] List<int> idsAsientos)
     {
-        int idSesion = 1; 
-        int idHorario = 1; 
-        //creamos "peliculas" y le asignamos lista para todas las peliculas 
-        var peliculas = new List<Pelicula>
+        var sesion = sesiones.FirstOrDefault(s => s.IdSesion == idSesion);
+        foreach (var idAsiento in idsAsientos)
         {
-            new Pelicula(1, "RED ONE", "../imgs/RedOne.jpg", "Jake Kasdan", 148, "Nick Kroll, Dwayne Johnson...", "+7", new DateTime(2024, 11, 6), "Descripción RED ONE", 1),
-            new Pelicula(2, "VENOM 3", "../imgs/venom3.jpg", "Kelly Marcel", 138, "Rhys Ifans, Tom Hardy...", "+12", new DateTime(2024, 10, 25), "Descripción VENOM 3", 2),
-            new Pelicula(3, "GLADIATOR II", "../imgs/Gladiator2.jpg", "Ridley Scott", 138, "Paul Mescal, Denzel Washington...", "+16", new DateTime(2024, 11, 15), "Descripción GLADIATOR II", 3),
-            new Pelicula(4, "TERRIFIER 3", "../imgs/Terrifier3.jpeg", "Chris Sanders", 100, "Bill Nighy, Lupita Nyong'o...", "TP", new DateTime(2024, 10, 11), "Descripción TERRIFIER 3", 5),
-            new Pelicula(5, "DUNE: PARTE DOS", "../imgs/Dune2.jpg", "Denis Villeneuve", 155, "Timothée Chalamet, Zendaya...", "+12", new DateTime(2024, 11, 3), "Descripción DUNE 2", 2),
-            new Pelicula(6, "THE BATMAN: CAPÍTULO DOS", "../imgs/TheBatman2.jpeg", "Matt Reeves", 185, "Robert Pattinson...", "+16", new DateTime(2025, 3, 15), "Descripción BATMAN 2", 3),
-            new Pelicula(7, "AVATAR 3", "../imgs/Avatar3.jpg", "James Cameron", 190, "Sam Worthington...", "TP", new DateTime(2024, 12, 20), "Descripción AVATAR 3", 1),
-            new Pelicula(8, "SPIDER-MAN: MÁS ALLÁ DEL MULTIVERSO", "../imgs/SpiderBeyond.jpg", "Joaquim Dos Santos", 130, "Shameik Moore...", "+7", new DateTime(2025, 5, 10), "Descripción SPIDER-MAN", 2)
-        };
-
-        //creamos "salas" y le asignamos lista para todas las salas 
-        var salas = new List<Sala>
-        {
-            new Sala(1, 100, "A-1"),
-            new Sala(2, 80, "A-2"),
-            new Sala(3, 80, "A-3"),
-            new Sala(4, 100, "B-1"),
-            new Sala(5, 80, "B-2"),
-            new Sala(6, 80, "B-3"),
-            new Sala(7, 100, "C-1"),
-            new Sala(8, 80, "C-2"),
-            new Sala(9, 80, "C-3")
-        };
-
-        //si la pelicula esta dentro de la lista creada anteriormente...
-        foreach (var pelicula in peliculas)
-        {
-            // Creamos horarios para dicha pelicula, cada horario sera diferente, eso lo hacemos con contadores
-            var horarios = new List<Horario>
-            {
-                new Horario(idHorario++, new DateTime(2024, 11, 6, 16, 0, 0), salas[(pelicula.IdPelicula - 1) % salas.Count]),
-                new Horario(idHorario++, new DateTime(2024, 11, 6, 18, 30, 0), salas[(pelicula.IdPelicula + 1) % salas.Count]),
-                new Horario(idHorario++, new DateTime(2024, 11, 6, 20, 0, 0), salas[(pelicula.IdPelicula + 2) % salas.Count])
-            };
-
-            // Creamos la sesion el id sesion es un contador y sera distinto cada vez, la pelicula que este asociada y los horarios de la pelicula
-            sesiones.Add(new Sesion(
-                idsesion: idSesion++,
-                pelicula: pelicula,
-                horarios: horarios
-            ));
+            var asiento = sesion.AsientosDisponibles.FirstOrDefault(a => a.IdAsiento == idAsiento);
+                asiento.Libre = false; // cambiar estado a ocupado
         }
+
+        return Ok(new { Message = "Asientos actualizados correctamente." });
     }
 
-}
+
+        // Inicializar sesiones
+        public static void InicializarDatos()
+        {
+            int idSesion = 1;
+            var horarios = HorarioController.horarios;
+
+            sesiones.Clear();
+
+            foreach (var horario in horarios)
+            {
+                var sesion = new Sesion(
+                    idsesion: idSesion++,
+                    pelicula: horario.Pelicula,
+                    horario: horario);
+                sesion.InicializarAsientos();    
+                sesiones.Add(sesion);
+                
+                
+            }
+        }
+    }
 }

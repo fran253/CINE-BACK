@@ -17,7 +17,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
+
+app.Urls.Add("https://*:7000");
+app.Urls.Add("https://*:5000");
 
 app.UseCors("PermitirOrigenLocal");
 
@@ -30,9 +34,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+SalaController.InicializarDatos();
 PeliculaController.InicializarDatos();
+HorarioController.InicializarHorarios();
 SesionController.InicializarDatos();
 AsientoController.InicializarDatos();
-SalaController.InicializarDatos();
 
 app.Run();

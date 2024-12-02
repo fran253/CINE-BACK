@@ -9,11 +9,12 @@ namespace CineApi.Controllers
     {
         public static List<Horario> horarios = new List<Horario>();
 
-        public HorarioController(){
-        if (horarios.Count == 0)
+        public HorarioController()
         {
-            InicializarHorarios();
-        }
+            if (horarios.Count == 0)
+            {
+                InicializarHorarios();
+            }
         }
 
         [HttpGet]
@@ -30,32 +31,50 @@ namespace CineApi.Controllers
                 return NotFound();
             return Ok(horario);
         }
-        
-        public static void InicializarHorarios(){
-            //Salas A
-            horarios.Add(new Horario(1,new DateTime(2024, 11, 6, 18, 0, 0),new Sala(1, 100, "A-1")));
-            horarios.Add(new Horario(2,new DateTime(2024, 11, 6, 20, 30, 0), new Sala(1, 100, "A-2")));
-            horarios.Add(new Horario(3, new DateTime(2024, 11, 6, 14, 30, 0), new Sala(1, 100, "A-3")));
-            //Salas B
-            horarios.Add(new Horario(4, new DateTime(2024, 11, 7, 10, 0, 0), new Sala(4, 100, "B-1")));
-            horarios.Add(new Horario(5, new DateTime(2024, 11, 7, 12, 30, 0), new Sala(5, 80, "B-2")));
-            horarios.Add(new Horario(6, new DateTime(2024, 11, 7, 15, 0, 0), new Sala(6, 80, "B-3")));
-            //Salas C
-            horarios.Add(new Horario(7, new DateTime(2024, 11, 8, 10, 0, 0), new Sala(7, 100, "C-1")));
-            horarios.Add(new Horario(8, new DateTime(2024, 11, 8, 12, 30, 0), new Sala(8, 80, "C-2")));
-            horarios.Add(new Horario(9, new DateTime(2024, 11, 8, 15, 0, 0), new Sala(9, 80, "C-3")));
 
+        public static void InicializarHorarios()
+        {
+            // Obtener las salas desde SalaController
+            var salas = SalaController.Salas;
 
-            
+            // Obtener las películas desde PeliculaController
+            var peliculas = PeliculaController.peliculas;
 
+            // Validar que las salas y películas estén inicializadas
+            if (salas == null || !salas.Any())
+                throw new InvalidOperationException("Las salas no están inicializadas.");
 
-                    
+            if (peliculas == null || !peliculas.Any())
+                throw new InvalidOperationException("Las películas no están inicializadas.");
+
+            horarios.Clear();
+            int idHorario = 1;
+
+            // Asignar 5 horarios por cada película
+            foreach (var pelicula in peliculas)
+            {
+                for (int i = 0; i < 5; i++) // Crear 5 horarios por película
+                {
+                    // Rotar entre las salas disponibles (si hay menos salas que horarios, volver a empezar)
+                    var sala = salas[i % salas.Count];
+
+                    // Crear horarios escalonados para cada película
+                    var fechaInicio = new DateTime(2024, 11, 6, 10 + (i * 2), 0, 0); // 10:00, 12:00, etc.
+
+                    horarios.Add(new Horario(
+                        idHorario++,
+                        fechaInicio,
+                        fechaInicio.AddMinutes(pelicula.Duracion), // Calcula el fin basado en la duración
+                        pelicula,
+                        sala
+                    ));
+                }
+            }
         }
 
-        public static List<Horario> GetHorario(){
-        return horarios;
+        public static List<Horario> GetHorario()
+        {
+            return horarios;
         }
-
-
     }
 }

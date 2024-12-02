@@ -4,29 +4,29 @@ public class Sesion
 {
     public int IdSesion { get; set; }
     public Pelicula Pelicula { get; set; }
-    public Sala Sala { get; set; } // Sala puede ser eliminada si los horarios tienen sala asignada
-    public List<Horario> Horarios { get; set; } // Lista de horarios
-    public List<Asiento> AsientosDisponibles { get; set; }
+    public Horario Horario { get; set; } // Horario asociado a la sesión
+    public List<Asiento> AsientosDisponibles { get; set; } = new List<Asiento>();
 
-    public Sesion(int idsesion, Pelicula pelicula, List<Horario> horarios)
+    public Sesion(int idsesion, Pelicula pelicula, Horario horario)
     {
         IdSesion = idsesion;
         Pelicula = pelicula;
-        Horarios = horarios;
+        Horario = horario;
 
-        // Los asientos se basan en la capacidad de la sala del primer horario
-        if (Horarios.Count > 0)
+        if (Horario?.Sala == null)
         {
-            Sala = Horarios[0].Sala; // Vincula la sala del primer horario
-            AsientosDisponibles = new List<Asiento>();
-            for (int i = 1; i <= Sala.Capacidad; i++)
-            {
-                AsientosDisponibles.Add(new Asiento(i, i, false));
-            }
+            throw new NullReferenceException("La propiedad Sala del objeto Horario no está inicializada.");
         }
-        else
+
+        // Inicializar los asientos disponibles según la capacidad de la sala
+    }
+
+    public void InicializarAsientos()
+    {
+        for (int i = 1; i <= Horario.Sala.Capacidad; i++)
         {
-            throw new ArgumentException("Error: Debe haber al menos un horario asociado a la sesión.");
+            Asiento nuevoAsiento = new Asiento(i, i, false);
+            AsientosDisponibles.Add(nuevoAsiento);
         }
     }
 }

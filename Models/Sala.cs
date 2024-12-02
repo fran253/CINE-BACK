@@ -4,6 +4,7 @@ public class Sala {
     public int IdSala {get;set;}
     public string NombreSala {get; set;}
     public int Capacidad{get;set;}
+    public int PrecioAsiento {get;set;}
     public List<Asiento> AsientosDisponibles { get; set; }
 
 
@@ -12,11 +13,13 @@ public class Sala {
 
 
 
-   public Sala(int idsala, int capacidad, string nombresala)
+   public Sala(int idsala, int capacidad, string nombresala, int precioasiento)
         {
             IdSala = idsala;
             Capacidad = capacidad;
             NombreSala = nombresala;
+            PrecioAsiento = precioasiento;
+
 
             // Inicializar la lista de asientos disponibles
             AsientosDisponibles = new List<Asiento>();
@@ -26,7 +29,7 @@ public class Sala {
                 AsientosDisponibles.Add(new Asiento(
                     idasiento: i,
                     numasiento: i, 
-                    estado: true 
+                    libre: true 
                 ));
             }
         }
