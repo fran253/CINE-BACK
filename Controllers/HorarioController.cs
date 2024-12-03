@@ -59,7 +59,7 @@ namespace CineApi.Controllers
                     var sala = salas[i % salas.Count];
 
                     // Crear horarios escalonados para cada película
-                    var fechaInicio = new DateTime(2024, 11, 6, 10 + (i * 2), 0, 0); // 10:00, 12:00, etc.
+                    var fechaInicio = new DateTime(2024, 12, 4, 10 + (i * 2), 0, 0); // 10:00, 12:00, etc.
 
                     horarios.Add(new Horario(
                         idHorario++,
