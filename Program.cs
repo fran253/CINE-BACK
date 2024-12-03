@@ -3,18 +3,13 @@ using CineApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración de CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", policy =>
+    options.AddPolicy("PermitirOrigenLocal", policy =>
     {
-        policy.WithOrigins(
-            "http://52.87.111.65",   // IP pública de tu servidor
-            "http://localhost",      // Frontend en local
-            "http://127.0.0.1:5000"  // Otras IPs si las necesitas
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod();
+        policy.AllowAnyOrigin() // Permitimos cualquier origen para pruebas /////////////////////////////
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
@@ -22,18 +17,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
 
-// Usamos HTTP para el desarrollo
-app.Urls.Add("http://*:7000");  // Usamos el puerto 7000
-app.Urls.Add("http://*:5000");  // Si es necesario el puerto 5000 también
+app.Urls.Add("https://*:7000");
+app.Urls.Add("https://*:5000");
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("PermitirOrigenLocal");
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();  // Elimina esta línea si no tienes configurado HTTPS
+app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.MapControllers();
@@ -44,5 +40,4 @@ HorarioController.InicializarHorarios();
 SesionController.InicializarDatos();
 AsientoController.InicializarDatos();
 
-// Ejecutar la aplicación en HTTP
-app.Run("http://0.0.0.0:7000");  // Puerto HTTP en 7000
+app.Run();
