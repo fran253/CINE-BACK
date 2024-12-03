@@ -85,7 +85,7 @@ namespace CineApi.Controllers
             peliculas.Add(new Pelicula(3, "Star Wars: Episodio IV ", "../imgs/StarWars.jpg",  "George Lucas",121, "Mark Hamill, Harrison Ford, Carrie Fisher", "+7", new DateTime(1977, 5, 25), "Un joven llamado Luke Skywalker se une a la rebelión contra el imperio galáctico para salvar a la princesa Leia.", 2, "Clásicos", 
             "https://www.youtube.com/embed/beAH5vea99k"));
 
-            peliculas.Add(new Pelicula(4, "El mago de Oz", "../imgs/MagodeOz.jpg",  "Victor Fleming",102, "Judy Garland, Frank Morgan, Ray Bolger", "+7", new DateTime(1939, 8, 25), "Dorothy es llevada por un tornado a la tierra de Oz, donde hará nuevos amigos mientras busca el camino de vuelta a casa.", 2, "Clásicos", 
+            peliculas.Add(new Pelicula(4, "El mago de Oz", "../imgs/MagodeOZ.jpg",  "Victor Fleming",102, "Judy Garland, Frank Morgan, Ray Bolger", "+7", new DateTime(1939, 8, 25), "Dorothy es llevada por un tornado a la tierra de Oz, donde hará nuevos amigos mientras busca el camino de vuelta a casa.", 2, "Clásicos", 
             "https://www.youtube.com/embed/d1h4rUzcKGg"));
 
             peliculas.Add(new Pelicula(5, "Caza fantasmas", "../imgs/CazFantasmas.jpg",  "Ivan Reitman",105, "Bill Murray, Dan Aykroyd, Sigourney Weaver", "+12", new DateTime(1984, 6, 8), "Un grupo de científicos inicia una empresa para capturar fantasmas en Nueva York, enfrentándose a una creciente invasión paranormal.", 2, "Clásicos", 
