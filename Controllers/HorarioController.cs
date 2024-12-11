@@ -53,18 +53,19 @@ namespace CineApi.Controllers
             // Asignar 5 horarios por cada película
             foreach (var pelicula in peliculas)
             {
-                for (int i = 0; i < 5; i++) // Crear 5 horarios por película
+                for (int i = 0; i < 4; i++) // Crear 5 horarios por película
                 {
                     // Rotar entre las salas disponibles (si hay menos salas que horarios, volver a empezar)
                     var sala = salas[i % salas.Count];
 
                     // Crear horarios escalonados para cada película
-                    var fechaInicio = new DateTime(2024, 12, 4, 10 + (i * 2), 0, 0); // 10:00, 12:00, etc.
+                    var fechaInicio = new DateTime(2024, 12, 4, 10 + (i * 2), 0, 0); 
+
 
                     horarios.Add(new Horario(
                         idHorario++,
                         fechaInicio,
-                        fechaInicio.AddMinutes(pelicula.Duracion), // Calcula el fin basado en la duración
+                        fechaInicio.AddMinutes(pelicula.Duracion),
                         pelicula,
                         sala
                     ));

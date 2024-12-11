@@ -74,9 +74,17 @@ namespace CineApi.Controllers
         //     return NoContent();
         // }
 
-public static void InicializarDatos()
+public static void InicializarPeliculas()
 {
-    peliculas.Add(new Pelicula(1, "El señor de los anillos", "../imgs/ElSeñorDeLosAnillos.png",  "Peter Jackson", 178, "Elijah Wood, Ian McKellen, Viggo Mortensen", "+12", new DateTime(2001, 12, 19), "Frodo Bolsón y su grupo de amigos deben destruir un anillo mágico para evitar que el malvado Sauron conquiste el mundo.", 2, "Clásicos", 
+    // var opiniones = OpinionesController.Opinion;
+    // if (opiniones == null || !opiniones.Any())
+    //     throw new InvalidOperationException("Las opiniones no están inicializadas.");
+
+    // for (int i = 0; i < 4; i++) 
+    //     {
+    //         var opinion = opiniones[i % opiniones.Count];
+
+            peliculas.Add(new Pelicula(1, "El señor de los anillos", "../imgs/ElSeñorDeLosAnillos.png",  "Peter Jackson", 178, "Elijah Wood, Ian McKellen, Viggo Mortensen", "+12", new DateTime(2001, 12, 19), "Frodo Bolsón y su grupo de amigos deben destruir un anillo mágico para evitar que el malvado Sauron conquiste el mundo.", 2, "Clásicos", 
             "https://www.youtube.com/embed/3GJp6p_mgPo"));
 
             peliculas.Add(new Pelicula(2, "Harry Potter", "../imgs/harrypotter1.jpg",  "Chris Columbus",152, "Daniel Radcliffe, Rupert Grint, Emma Watson", "+7", new DateTime(2001, 11, 10), "Harry Potter descubre que es un mago y asiste a la escuela Hogwarts para aprender magia, enfrentándose al malvado Voldemort.", 2, "Clásicos", 
@@ -227,7 +235,8 @@ public static void InicializarDatos()
             "Miles Morales se embarca en una nueva aventura en el multiverso, enfrentándose a desafíos y aliados inesperados, en una misión que no solo pondrá en peligro su vida, sino el destino de todos los universos conocidos.",
             1,"Animación", "https://www.youtube.com/embed/b_yMOiRgMmQ"));
 
-        }
+//         }
+}
         public static List<Pelicula> GetPeliculas()
         {
             return peliculas;

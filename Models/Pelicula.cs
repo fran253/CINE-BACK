@@ -13,6 +13,9 @@ public class Pelicula {
     public int IdCategoriaPelicula {get;set;}
     public string NombreCategoria {get; set;}
     public string TrailerUrl {get;set;}
+    // public Opiniones Opiniones {get;set;}
+    // public List<Opiniones> OpinionesDisponibles { get; set; }
+
 
 
 
@@ -29,6 +32,7 @@ public class Pelicula {
         IdCategoriaPelicula = idCategoriaPelicula;
         NombreCategoria = nombrecategoria;
         TrailerUrl = trailerUrl;
+        // Opiniones = opiniones;
 
         // if (string.IsNullOrEmpty(nombre))
         // {
@@ -38,6 +42,19 @@ public class Pelicula {
         // {
         //     throw new ArgumentException("Error: El precio no puede ser negativo.");
         // }
+
+        // OpinionesDisponibles = new List<Opiniones>();
+        //         for (int i = 0; i < 4; i++)             {
+        //         // Crear cada asiento con el constructor parametrizado
+        //         OpinionesDisponibles.Add(new Opiniones(
+        //             idopinion: i,
+        //             nombreopinante: , 
+        //             apellidoopinante: ,
+        //             opinion: ,
+        //             valoracion: 
+
+        //         ));
+        //     }
     }
 
     //public abstract void MostrarDetalles();

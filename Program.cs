@@ -35,9 +35,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 SalaController.InicializarDatos();
-PeliculaController.InicializarDatos();
+PeliculaController.InicializarPeliculas();
 HorarioController.InicializarHorarios();
 SesionController.InicializarDatos();
 AsientoController.InicializarDatos();
+ComidaController.InicializarDatos();
+OpinionesController.InicializarDatos();
 
-app.Run();
+
+app.Run("https://localhost:7000");

@@ -94,7 +94,14 @@ namespace CineApi.Controllers
                         sesion.Pelicula.Descripcion,
                         sesion.Pelicula.IdCategoriaPelicula,
                         sesion.Pelicula.NombreCategoria,
-                        sesion.Pelicula.TrailerUrl
+                        sesion.Pelicula.TrailerUrl,
+                        // Opiniones = new {
+                        //     sesion.Pelicula.Opiniones.IdOpinion,
+                        //     sesion.Pelicula.Opiniones.NombreOpinante,
+                        //     sesion.Pelicula.Opiniones.ApellidoOpinante,
+                        //     sesion.Pelicula.Opiniones.Opinion,
+                        //     sesion.Pelicula.Opiniones.Valoracion
+                        // }
                     },
                     Horario = new
                     {

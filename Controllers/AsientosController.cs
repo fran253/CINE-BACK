@@ -40,6 +40,19 @@ public class AsientoController : ControllerBase
         return Ok(new { message = "Asientos confirmados correctamente." });
     }
 
+    [HttpPost("CancelarCompra")]
+    public ActionResult CancelarCompra([FromBody] List<int> pendingSeats)
+    {
+        foreach (var idAsiento in pendingSeats)
+        {
+            var asiento = Asientos.FirstOrDefault(a => a.IdAsiento == idAsiento);
+            if (asiento != null)
+            {
+                asiento.Libre = true; // Marcar el asiento como libre
+            }
+        }
+        return Ok(new { message = "Asientos retirados correctamente." });
+    }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////De momento no se necesita el UPDATE
