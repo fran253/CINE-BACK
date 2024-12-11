@@ -9,7 +9,7 @@ RUN dotnet publish -c Release -o /CINE-BACk/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /CINE-BACk
-EXPOSE 7000
+EXPOSE 2563
 
 COPY --from=build /CINE-BACk/publish .
 

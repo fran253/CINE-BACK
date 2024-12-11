@@ -25,7 +25,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Usamos HTTP para el desarrollo
-app.Urls.Add("http://*:7000");  // Usamos el puerto 7000
+app.Urls.Add("https://*:25626");  // Usamos el puerto 7000
 app.Urls.Add("http://*:5000");  // Si es necesario el puerto 5000 también
 
 app.UseCors("AllowSpecificOrigin");
@@ -33,7 +33,7 @@ app.UseCors("AllowSpecificOrigin");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();  // Elimina esta línea si no tienes configurado HTTPS
+app.UseHttpsRedirection(); 
 app.UseAuthorization();
 
 app.MapControllers();
@@ -45,4 +45,4 @@ SesionController.InicializarDatos();
 AsientoController.InicializarDatos();
 
 // Ejecutar la aplicación en HTTP
-app.Run("http://0.0.0.0:7000");  // Puerto HTTP en 7000
+app.Run("http://0.0.0.0:2563");  // Puerto HTTP en 7000

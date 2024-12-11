@@ -155,6 +155,20 @@ namespace CineApi.Controllers
     }
 
 
+    [HttpPut("{idSesion}/AsientosDesocupados")]
+    public ActionResult UpdateAsientosCancelacion(int idSesion, [FromBody] List<int> idsAsientos)
+    {
+        var sesion = sesiones.FirstOrDefault(s => s.IdSesion == idSesion);
+        foreach (var idAsiento in idsAsientos)
+        {
+            var asiento = sesion.AsientosDisponibles.FirstOrDefault(a => a.IdAsiento == idAsiento);
+                asiento.Libre = true; // cambiar estado a libre
+        }
+
+        return Ok(new { Message = "Asientos actualizados correctamente." });
+    }    
+
+
         // Inicializar sesiones
         public static void InicializarDatos()
         {
